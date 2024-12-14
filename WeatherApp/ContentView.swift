@@ -7,18 +7,39 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
 
-#Preview {
-    ContentView()
-}
+struct ContentView: View {
+    @State private var selectedTab: Tab = .cityList
+    @StateObject private var weatherViewModel = WeatherViewModel()
+
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            CityListView()
+                .environmentObject(weatherViewModel)
+                .tabItem {
+                    Label("Cities", systemImage: "list.dash")
+                }
+                .tag(Tab.cityList)
+
+            SearchView()
+                .environmentObject(weatherViewModel)
+                .tabItem {
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+                .tag(Tab.search)
+
+            SettingsView()
+                .environmentObject(weatherViewModel)
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
+                .tag(Tab.settings)
+        }
+           }
+
+           enum Tab {
+               case cityList
+               case search
+               case settings
+           }
+       }

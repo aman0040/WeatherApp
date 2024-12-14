@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct WeatherAppApp: App {
+struct WeatherApp: App {
+    @StateObject private var weatherViewModel = WeatherViewModel()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(weatherViewModel)
         }
     }
 }
